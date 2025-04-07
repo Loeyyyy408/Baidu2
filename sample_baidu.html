@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>百度一下，你就知道</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <style>
+        .LeftNavbar {
+            background-color: white; /* 导航栏背景始终为白色 */
+            padding: 10px;
+            text-align: left;
+            width: 600px; /* 固定导航栏宽度 */
+            font-family: "Microsoft YaHei", sans-serif; /* 设置字体为微软雅黑 */
+        }
+
+        .LeftNavbar a {
+            color: #333333; /* 默认字体颜色为黑色 */
+            text-decoration: none; /* 去掉下划线 */
+            padding: 3px 6.5px; /* 按钮内边距 */
+            display: inline-block; /* 让链接像按钮一样 */
+            font-size: 13px; /* 字体变小 */
+            margin-right: 5px; /* 减小链接之间的间隔 */
+            transition: color 0.3s; /* 平滑过渡字体颜色 */
+        }
+
+        .LeftNavbar a:last-child {
+            margin-right: 0; /* 最后一个标签不需要右侧间隔 */
+        }
+
+        .LeftNavbar a:hover {
+            color:#4a90e2; /* 鼠标悬停时字体变蓝 */
+        }
+
+        .LeftNavbar a:active {
+            color: #333333; /* 点击后字体仍为黑色 */
+        }
+
+        .logo {
+            text-align: center; /* 让 logo 内部的 img 居中 */
+            margin-top: 70px;
+        }
+
+        .logo img {
+            height: 75px;  /* 设置高度 */
+            width: auto;   /* 宽度自动 */
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 650px; /* 整体宽度 */
+        }
+
+        .search-input {
+            flex: 1;                     /* 占据剩余空间 */
+            height: 40px;
+            padding: 0 10px;
+            font-size: 16px;
+            border: none;                /* 移除原有边框 */
+            outline: none;               /* 去除焦点边框 */
+            border-radius: 0;            /* 移除圆角避免和整体冲突 */
+        }
+
+        .search-button {
+            height: 40px;
+            padding: 0 20px;
+            font-size: 16px;
+            background-color: #3385ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0;            /* 移除圆角 */
+            white-space: nowrap;         /* 防止文字换行 */
+        }
+
+        .search-button:hover {
+            background-color: #2d78f4;
+        }
+        .ai-box {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to right, #f2f6ff, #e7ecff);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 15px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+            margin: 0 auto; /* 使元素水平居中 */
+        }
+
+        .ai-icon {
+            margin-right: 8px;
+            color: #4b7bec;
+        }
+
+        .arrow {
+            background-color: rgba(76, 106, 255, 0.1);
+            border-radius: 50%;
+            padding: 4px;
+            margin-left: 10px;
+            font-size: 14px;
+            color: #4b7bec;
+        }
+        .hot-search-wrapper {
+            width: 700px;
+            margin: 30px auto;
+        }
+
+        .hot-search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .hot-search-header .tabs span {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .hot-search-header .tabs .active {
+            color: #000;
+            font-weight: bold;
+            border-bottom: 2px solid #2b63f0;
+        }
+
+        .hot-search-header .refresh {
+            font-size: 14px;
+            color: #999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .hot-search-header .refresh::before {
+            content: "⟳";
+            margin-right: 5px;
+        }
+
+        .hot-search-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .hot-search-item {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .hot-search-item .index {
+            width: 20px;
+            text-align: right;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .hot-search-item .label {
+            background-color: #ff5722;
+            color: #fff;
+            font-size: 12px;
+            padding: 0 5px;
+            margin-left: 5px;
+            border-radius: 3px;
+        }
+
+        .hot-search-item .hot {
+            background-color: #ff6b00;
+        }
+
+        .hot-search-item .new {
+            background-color: #f00;
+        }
+
+        .hot-search-item span.text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+        }
+        footer {
+            position: fixed;      /* 固定定位 */
+            bottom: 0;            /* 距离底部为 0 */
+            left: 0;              /* 左对齐 */
+            width: 100%;          /* 宽度撑满整个页面 */
+            font-size: 12px;
+            color: #999;
+            text-align: center;   /* 居中对齐文字 */
+            padding: 10px 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="LeftNavbar">
+    <a href="https://news.baidu.com/" target="_blank">新闻</a>
+    <a href="https://www.hao123.com/" target="_blank">hao123</a>
+    <a href="https://map.baidu.com/" target="_blank">地图</a>
+    <a href="https://tieba.baidu.com/" target="_blank">贴吧</a>
+    <a href="https://haokan.baidu.com/?sfrom=baidu-top" target="_blank">视频</a>
+    <a href="https://image.baidu.com/" target="_blank">图片</a>
+    <a href="https://pan.baidu.com/" target="_blank">网盘</a>
+    <a href="https://wenku.baidu.com/" target="_blank">文库</a>
+    <a href="https://chat.baidu.com/" target="_blank">ai*</a>
+    <a href="https://www.baidu.com/more/" target="_blank">更多</a>
+</div>
+<div class="RightNavbar">
+
+
+</div>
+<div class="logo">
+    <img src="C:\Users\19274\Desktop\BaiduLogo.png" alt="百度 logo">
+</div>
+<div class="search-box">
+    <input type="text" class="search-input" placeholder="百度一下">
+    <button class="search-button">百度一下</button>
+</div>
+<div class="ai-box">
+    <span class="ai-icon">🔍</span>
+    <span>AI搜索DeepSeek 今日已解决12414319个问题</span>
+    <span class="arrow">→</span>
+</div>
+<div class="hot-search-wrapper">
+    <div class="hot-search-header">
+        <div class="tabs">
+            <span>我的关注</span>
+            <span class="active">百度热搜</span>
+        </div>
+        <div class="refresh">换一换</div>
+    </div>
+
+    <div class="hot-search-list">
+        <!-- 左列 -->
+        <div class="hot-search-item"><span class="index">↑</span><span class="text">勤俭是我们的传家宝</span></div>
+        <div class="hot-search-item"><span class="index">1</span><span class="text">全球股市巨震</span><span class="label new">爆</span></div>
+        <div class="hot-search-item"><span class="index">2</span><span class="text">央行金宣布增持：坚决维护市场...</span><span class="label hot">热</span></div>
+        <div class="hot-search-item"><span class="index">3</span><span class="text">一组数据带你看消费市场加速升温</span></div>
+        <div class="hot-search-item"><span class="index">4</span><span class="text">一部苹果手机告诉你美加关税的代价</span><span class="label hot">热</span></div>
+
+        <!-- 右列 -->
+        <div class="hot-search-item"><span class="index">5</span><span class="text">金店老板称黄金市场一片狼藉</span><span class="label hot">热</span></div>
+        <div class="hot-search-item"><span class="index">6</span><span class="text">#关税冲击股市会使全球经济衰退吗#</span></div>
+        <div class="hot-search-item"><span class="index">7</span><span class="text">曝iPhone19Pro外形颠覆</span><span class="label hot">热</span></div>
+        <div class="hot-search-item"><span class="index">8</span><span class="text">王俊凯被曝去夜店 粉丝乱成一锅粥</span></div>
+        <div class="hot-search-item"><span class="index">9</span><span class="text">特朗普顾问：不卖掉股票就不会亏钱</span><span class="label hot">热</span></div>
+    </div>
+</div>
+
+<footer>
+    关于百度&nbsp;&nbsp;About Baidu&nbsp;&nbsp;使用百度前必读&nbsp;&nbsp;帮助中心&nbsp;&nbsp;企业推广&nbsp;&nbsp;京公网安备1100000200001号&nbsp;&nbsp;京ICP证030173号&nbsp;&nbsp;互联网新闻信息服务许可证11220180008&nbsp;&nbsp;网络文化经营许可证： 京网文〔2023〕1034-029号&nbsp;&nbsp;信息网络传播视听节目许可证 0110516
+</footer>
+</body>
+</html>
